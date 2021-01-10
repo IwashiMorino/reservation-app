@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { products } from '../../products';
 
+import { ProductService } from '../shared/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,23 +11,32 @@ import { products } from '../../products';
 
 export class ProductDetailComponent implements OnInit {
   product: { coverimage: string; name: string; price: number; description: string; heading1: string; heading2: string; heading3: string; headingtext1: string; headingtext2: string; headingtext3: string; } | undefined;
-  // product: { name: string; price: number; description: string; } | undefined;
   
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService
+    ) { }
 
   ngOnInit() {
     const routeParams = this.route.snapshot.paramMap;
-    const productIdFromRoute = Number(routeParams.get('productId'));
+    const productIdFromRoute = routeParams.get('productId');
   
-    // this.product = products.find(product => product.id === productIdFromRoute);
-    this.product = products[productIdFromRoute];
+    this.route.paramMap.subscribe(routeParams => {
+      
+      if (productIdFromRoute != null) {
+        const productObservable = this.productService.getProductByID(productIdFromRoute);
 
+        productObservable.subscribe(
+          (data) => {
+            this.product = data
+          },
+          (err) => {
+  
+          }
+        )
+      }
+      
+    });
   }
-
-  // ngOnInit() {
-  //   this.route.paramMap.subscribe(params => {
-  //     this.product = products[+params.get('productId')];
-  //   });
-  // }
 
 }
