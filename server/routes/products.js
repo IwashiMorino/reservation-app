@@ -1,5 +1,5 @@
 const express = require('express')
-// const product = require('../model/product')
+
 const router = express.Router()
 const Product = require('../model/product')
 
@@ -10,7 +10,7 @@ router.get('', function(req, res) {
 })
 
 router.get('/:productId', function(req, res) {
-    // console.log(req.params)
+    
     const productID = req.params.productId
     Product.findById(productID, function(err, foundProduct) {
         if(err) {
