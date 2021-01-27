@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 // const ObjectId = Schema.ObjectId;
 
 const ProductSchema = new Schema({
-  // _ID: ObjectId,
+  // author: ObjectId,
   coverimage: String,
   name: { type: String, required: true, max:[60, '最大60文字までです'] },
   price: Number,
